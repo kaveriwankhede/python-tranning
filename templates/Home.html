@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %} Home - Study quiz hub {% endblock %}
+
+{% block content %}
+<h1>Welcome to Study quiz hub</h1>
+
+<p>
+    Here you can find various quizzes to test your knowledge and improve your skills.In this study quiz hub project give theory for knowledge
+</p>
+
+<h2>Quick start</h2>
+
+<a href="{{ url_for('students') }}">View Students</a>
+
+<ul>
+    {% for student in students %}
+    <li>
+        {{ student.name }} -
+        {{ student.marks }} marks -
+
+        {% if student.marks >= 80 %}
+            Excellent
+        {% elif student.marks >= 60 %}
+            Good
+        {% else %}
+            Needs improvement
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

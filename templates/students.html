@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %} Students - college portal {% endblock %}
+
+{% block content %}
+    <h1> All Students</h1>
+    <p> total students : {{ students|length }}</p>
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>Roll Number</th>
+            <th>Marks</th>
+            <th>Grade</th>
+        </tr>
+        {% for student in students %}
+        <tr>
+            <td>{{ student.name }}</td>
+            <td>{{ student.roll_no }}</td>
+            <td>{{ student.marks }}</td>
+            <td>
+                {% if student.marks >= 80 %}
+                    A
+                {% elif student.marks >= 60 %}
+                    B
+                {% elif student.marks >= 40 %}
+                    C
+                {% else %}
+                    F
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
