@@ -1,4 +1,4 @@
-from flask import Flask , render_template
+from flask import Flask , render_template ,request
 app = Flask(__name__)
 stud=[
     {
@@ -48,7 +48,26 @@ def MCQ():
 
 @app.route('/Result')
 def Result():
-    return render_template('Result.html')
+    score = 0
+
+    # Correct Answers
+    if request.form.get('q1') == "Programming Language":
+        score += 1
+
+    if request.form.get('q2') == "def":
+        score += 1
+
+    if request.form.get('q3') == "str":
+        score += 1
+
+    percentage = (score / 3) * 100
+
+    return render_template(
+        'result.html',
+        score=score,
+        percentage=percentage
+    )
+    #return render_template('Result.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
