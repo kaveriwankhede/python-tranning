@@ -3,12 +3,155 @@
 {% block title %} About - Study Quiz Hub Portal {% endblock %}
 
 {% block content %}
-<h1>About Study Quiz Hub Portal</h1>
 
-<p>Study Quiz Hub Portal is very importance for knowledge and solve the quiz question of various programing language.</p>
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+}
 
-<a href="{{ url_for('Home') }}">Home</a>
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
 
-<p>Total Students = 4</p>
+.column {
+  float: left;
+  width: 33.3%;
+  margin-bottom: 16px;
+  padding: 0 8px;
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  margin: 8px;
+}
+
+.about-section {
+  padding: 50px;
+  text-align: center;
+  background-color: #474e5d;
+  color: white;
+}
+
+.container {
+  padding: 0 16px;
+}
+
+.container::after, .row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.title {
+  color: grey;
+}
+
+.button {
+  border: none;
+  outline: 0;
+  display: inline-block;
+  padding: 8px;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+}
+
+.button:hover {
+  background-color: #555;
+}
+
+@media screen and (max-width: 650px) {
+  .column {
+    width: 100%;
+    display: block;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="about-section">
+  <h1>About Us Page</h1>
+  <p>Study Quiz Hub Portal is an educational web application developed using Python Flask, HTML, CSS, Bootstrap, and Jinja Templates. The project provides programming quizzes, theory notes, automatic result generation, percentage calculation, and pass/fail status. It helps students improve their programming knowledge and prepare for interviews and examinations through an interactive learning environment..</p>
+
+</div>
+
+<h2 style="text-align:center">about study quiz hub portal</h2>
+<div class="row">
+    <div class="column">
+    <div class="card">
+      <h3>Features of Study Quiz Hub Portal</h3>
+        <p>
+        <ul>
+            <li>Programming MCQ Quizzes</li>
+            <li>Python, Java, C आणि C++ Subjects</li>
+            <li>Theory Notes Available</li>
+            <li>Automatic Result Calculation</li>
+            <li>Pass/Fail Status</li>
+            <li>Student Information Display</li>
+            <li>Easy Navigation Menu</li>
+            <li>User-Friendly Interface</li>
+            <!-- <li>Knowledge Improvement</li>
+            <li>Useful for Exam and Interview Preparation</li> -->
+        </ul>
+        </p>
+    </div>
+  </div>
+    <div class="column">
+    <div class="card">
+      <img src="nature.avif" alt="Kaveri" style="width:100%">
+      <div class="container">
+        <h2>Kaveri S Wankhede</h2>
+        <p class="title">Project Creater</p>
+        <p>
+            I am a Computer Engineering student. I created this Study Quiz Hub Portal
+            to help students improve their programming knowledge and practice MCQ quizzes..
+        </p>
+        <p>kaveri@example.com</p>
+        <p><button class="button">Contact</button></p>
+      </div>
+    </div>
+  </div>
+  <div class="column">
+    <div class="card">
+      <h3>Technology used for Study Quiz Hub Portal</h3>
+      <p>
+            <ul>
+                <li>Python</li>
+                <li>Flask</li>
+                <li>Html</li>
+                <li>Jinja templates</li>
+                <li>Bootstrap</li>
+                <li>Css</li>
+                <li>VS Code</li>
+                <li>Browser</li>
+                
+            </ul>
+        </p>
+      
+      </div>
+    </div>
+  </div>
+
+  
+  
+  
+  </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
 
 {% endblock %}

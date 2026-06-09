@@ -16,3 +16,8 @@ print(list1[1])
 print(list1[2])
 print(list1[3])
 print(list1[4])
+
+dictionary1={"name":"John","age":25,"city":"New York"}
+
+#project quiz
+quiz1={"question":"What is the capital of France?","options":["A) Paris","B) London","C) Rome","D) Berlin"],"answer":"A"}

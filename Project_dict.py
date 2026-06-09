@@ -58,3 +58,6 @@ for quiz in Quiz_Questions:
     question_no += 1
 
 print("Final Score:", score)
+
+#Write a function 
+#search_records(records,search_term)

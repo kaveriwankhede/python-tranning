@@ -1,57 +1,38 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Python Theory</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-    <h1>Python Theory</h1>
+{% block title %}Python Theory{% endblock %}
 
-    <h2>What is Python?</h2>
-    <p>
-        Python is a high-level, interpreted and
-        easy-to-learn programming language.
-    </p>
+{% block content %}
 
-    <h2>Features of Python</h2>
-    <ul>
-        <li>Easy to Learn</li>
-        <li>Simple Syntax</li>
-        <li>Object-Oriented</li>
-        <li>Platform Independent</li>
-        <li>Open Source</li>
-    </ul>
+<h1>Python Theory</h1>
 
-    <h2>Variables</h2>
-    <p>
-        Variables are used to store data values.
-    </p>
+<h2>What is Python?</h2>
+<p>
+    Python is a high-level, interpreted and easy-to-learn programming language.
+</p>
 
-    <pre>
+<h2>Features of Python</h2>
+
+<ul>
+    <li>Easy to Learn</li>
+    <li>Simple Syntax</li>
+    <li>Object-Oriented</li>
+    <li>Platform Independent</li>
+    <li>Open Source</li>
+</ul>
+
+<h2>Variables</h2>
+
+<pre>
 name = "John"
 age = 20
+
 print(name)
 print(age)
-    </pre>
+</pre>
 
-    <h2>Data Types</h2>
-    <ul>
-        <li>int</li>
-        <li>float</li>
-        <li>str</li>
-        <li>bool</li>
-        <li>list</li>
-        <li>tuple</li>
-        <li>dictionary</li>
-    </ul>
+<a href="{{ url_for('Home') }}" class="btn btn-primary">
+    Back to Home
+</a>
 
-    <h2>Example Program</h2>
-
-    <pre>
-print("Welcome to Python")
-    </pre>
-
-    <a href="/">Back to Home</a>
-
-</body>
-</html>
+{% endblock %}

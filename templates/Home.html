@@ -1,32 +1,59 @@
 {% extends "base.html" %}
 
-{% block title %} Home - Study quiz hub {% endblock %}
+{% block title %} Home - Study Quiz Hub {% endblock %}
 
 {% block content %}
-<h1>Welcome to Study quiz hub</h1>
 
-<p>
-    Here you can find various quizzes to test your knowledge and improve your skills.In this study quiz hub project give theory for knowledge
-</p>
+<h1 class="text-center text-white bg-primary p-3">
+    Welcome to Study Quiz Hub
+</h1>
 
-<h2>Quick start</h2>
+<!-- <h5 class="text-success">Specification</h5>
 
-<a href="{{ url_for('students') }}">View Students</a>
+<p class="text-dark">
+    You can find various quizzes to test your knowledge and improve your skills.
+    This Study Quiz Hub project also provides theory content for learning.
+</p> -->
 
-<ul>
-    {% for student in students %}
-    <li>
-        {{ student.name }} -
-        {{ student.marks }} marks -
-
-        {% if student.marks >= 80 %}
-            Excellent
-        {% elif student.marks >= 60 %}
-            Good
-        {% else %}
-            Needs improvement
-        {% endif %}
-    </li>
-    {% endfor %}
-</ul>
+<hr/><hr/>
+<h2 class="text-success" style="text-align: center;">Quick Start</h2>
+<!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="navbar-nav ms-auto"> -->
+            <ul class="nav justify-content-center">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('MCQ_Python') }}">Python</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('MCQ_Java') }}">Java</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('MCQ_Cpp_lang') }}">Cpp lang</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('MCQ_C_lang') }}">C lang</a>
+                </li>
+                
+            </ul>
+            
+        </div>
+    <!-- </div>
+</nav> -->
+<hr/>
+<hr/>
+<h2 Style="text-align: center;">Python</h2><br>
+<h4 style="text-align: center";>A Popular Programing Language</h4><br>
+<div class="text-center">
+<a href="{{ url_for('Home') }}" class="btn btn-success">
+    Learn Python
+</a>
+<br><br>
+<a style="text-align: center"; href="{{ url_for('Home') }}" class="btn btn-dark">
+    Python Referance
+</a>
+<br><br>
+<a style="text-align: center"; href="{{ url_for('Home') }}" class="btn btn-danger">
+    Get Sertified
+</a>
+</div>
 {% endblock %}
+

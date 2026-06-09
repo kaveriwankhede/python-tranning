@@ -1,40 +1,25 @@
+{% extends "base.html" %}
 
-<html>
-<head>
-    <title>Subjects</title>
-</head>
-<body>
+{% block title %}Subjects{% endblock %}
 
-    <h1>Select a Subject</h1>
+{% block content %}
 
-    <ul>
-        <li>
-            <a href="{{ url_for('python') }}">
-                Python
-            </a>
-        </li>
+<h1 class="text-center">Select a Subject</h1>
 
-        <li>
-            <a href="{{ url_for('java') }}">
-                Java
-            </a>
-        </li>
+<h3>MCQ Subjects</h3>
+                    
+<div class="dropdown">
+    <button class="btn btn-primary dropdown-toggle"
+            type="button"
+            data-bs-toggle="dropdown">
+        Select Subject
+    </button>
 
-        <li>
-            <a href="{{ url_for('cpp') }}">
-                C++
-            </a>
-        </li>
-        <li>
-            <a href="{{ url_for('c lang') }}">
-                C lang
-            </a>
-        </li>
+    <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="{{ url_for('Theory') }}">Theory</a></li>
+        <li><a class="dropdown-item" href="{{ url_for('MCQ') }}">MCQ</a></li>
     </ul>
+</div>
+<hr>
 
-    <a href="{{ url_for('Home') }}">
-        Back to Home
-    </a>
-
-</body>
-</html>
+{% endblock %}

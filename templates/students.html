@@ -1,16 +1,28 @@
 {% extends "base.html" %}
-{% block title %} Students - college portal {% endblock %}
+
+{% block title %}Study Quiz Hub Portal{% endblock %}
 
 {% block content %}
-    <h1> All Students</h1>
-    <p> total students : {{ students|length }}</p>
-    <table border="1">
+
+<h1 class="text-center text-primary">
+    All Students
+</h1>
+
+<p class="text-success">
+    Total Students: {{ students|length }}
+</p>
+
+<table class="table table-bordered table-striped table-hover">
+    <thead class="table-dark">
         <tr>
             <th>Name</th>
             <th>Roll Number</th>
             <th>Marks</th>
             <th>Grade</th>
         </tr>
+    </thead>
+
+    <tbody>
         {% for student in students %}
         <tr>
             <td>{{ student.name }}</td>
@@ -29,5 +41,15 @@
             </td>
         </tr>
         {% endfor %}
-    </table>
+    </tbody>
+</table>
+<br>
+<br>
+<div class="text-center">
+    <button class="btn btn-success">
+        <a href="{{ url_for('Add_Students') }}" class="text-white text-decoration-none">
+            Add Students
+        </a>
+    </button>
+</div>
 {% endblock %}
