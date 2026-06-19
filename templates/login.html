@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %} Home - Study Quiz Hub {% endblock %}
+{% block content %}
+<form method="POST">
+    <h6 style="text-align: center;">Don't have an account,Click here to <a href="{{ url_for('Register') }}">Register</a></h6>
+    <div class="d-flex justify-content-center align-items-center vh70">
+    <div class="card" style="width:400px;height:350px;">
+        <div class="card-body p-4">
+            <div class="mb-3">
+            <h2 class="card-title" style="text-align: center;">
+                 <i class="bi bi-person-circle"> Login form</i>
+                
+            </h2>
+            <lable class="form-lable">Username : <input name="username" class="form-control"  type="username" placeholder="Enter username:"><br>
+            <lable class="form-lable">Password : <input name="password" class="form-control"  type="password" placeholder="Enter password:"><br>
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-success">login</button>
+        </div>
+        
+        </div>
+    </div>
+</div>
+</form>
+{% endblock %}

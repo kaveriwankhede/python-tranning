@@ -5,51 +5,123 @@
 {% block content %}
 
 <h1 class="text-center text-primary">
-    All Students
+    <i class="bi bi-file-person-fill"></i>All Candidate
 </h1>
 
 <p class="text-success">
-    Total Students: {{ students|length }}
+    Total Candidate: {{ students|length }}
 </p>
+<!-- Live Search -->
+<div class="mb-3">
+    <input type="text"
+           id="searchInput"
+           class="form-control form-control-lg"
+           placeholder="🔍 Type to search students by name...">   
+    <div id="resultInfo" class="text-center mt-2"></div>
+</div>
 
 <table class="table table-bordered table-striped table-hover">
     <thead class="table-dark">
         <tr>
-            <th>Name</th>
-            <th>Roll Number</th>
-            <th>Marks</th>
-            <th>Grade</th>
+            <th>
+                <i class="bi bi-hash"></i> 
+                SR No.
+            </th>
+            <th>
+                <i class="bi bi-person-fill"></i>
+                Candidate Name
+            </th>
+            <th><i class="bi bi-person-circle"></i>
+                Username
+            </th>
+            <th><i class="bi bi-envelope-fill"></i>
+                Email
+            </th>
+            <th><i class="bi bi-lock-fill"></i>
+                Password
+            </th>
+            <th>
+                ⋮             Action                     
+            </th>
         </tr>
-    </thead>
+    </thead> 
 
-    <tbody>
-        {% for student in students %}
-        <tr>
-            <td>{{ student.name }}</td>
-            <td>{{ student.roll_no }}</td>
-            <td>{{ student.marks }}</td>
-            <td>
-                {% if student.marks >= 80 %}
-                    A
-                {% elif student.marks >= 60 %}
-                    B
-                {% elif student.marks >= 40 %}
-                    C
-                {% else %}
-                    F
-                {% endif %}
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
+<tbody id="tableBody">
+    {% for student in students %}
+<tr data-name="{{ student['Name']|lower }}">
+    <td>{{ student['Sr_no'] }}</td>
+    <td>{{ student['Name'] }}</td>
+    <td>{{ student['username'] }}</td>
+    <td>{{ student['email'] }}</td>
+    <td>{{ student['password'] }}</td>
+    <td>
+        <a href="{{ url_for('view_student', Sr_no=student['Sr_no']) }}"
+           class="btn btn-info btn-sm">👁️ View</a>
+
+        <a href="{{ url_for('edit_student', Sr_no=student['Sr_no']) }}"
+           class="btn btn-warning btn-sm">✏️ Edit</a>
+
+        <a href="{{ url_for('delete_candidate', Sr_no=student['Sr_no']) }}"
+           class="btn btn-danger btn-sm"
+           onclick="return confirm('Delete this student?')">🗑️ Delete</a>
+    </td>
+</tr>
+{% endfor %}
+</tbody>
+
+<script>
+const searchInput = document.getElementById('searchInput');
+const allRows = document.querySelectorAll('#tableBody tr');
+const resultInfo = document.getElementById('resultInfo');
+
+searchInput.addEventListener('keyup', function () {
+
+    const query = this.value.toLowerCase();
+    let matchCount = 0;
+
+    allRows.forEach(function(row) {
+
+        const name = row.dataset.name;
+
+        if (name.includes(query)) {
+            row.style.display = '';
+            matchCount++;
+        } else {
+            row.style.display = 'none';
+        }
+    });
+
+    if (matchCount === 0) {
+    resultInfo.innerHTML =
+    '<div class="alert alert-danger text-center mt-2">❌ Result Not Found</div>';
+} else {
+    resultInfo.innerHTML =
+    `<div class="alert alert-success text-center mt-2">✅ ${matchCount} Result(s) Found</div>`;
+}
+});
+</script>
 </table>
-<br>
-<br>
-<div class="text-center">
-    <button class="btn btn-success">
-        <a href="{{ url_for('Add_Students') }}" class="text-white text-decoration-none">
-            Add Students
-        </a>
-    </button>
-</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {% endblock %}
+
+
+
+
+
+

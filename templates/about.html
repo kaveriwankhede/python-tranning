@@ -88,7 +88,7 @@ html {
 
 <h2 style="text-align:center">about study quiz hub portal</h2>
 <div class="row">
-    <div class="column">
+    <div class="col-md-4">
     <div class="card">
       <h3>Features of Study Quiz Hub Portal</h3>
         <p>
@@ -101,15 +101,19 @@ html {
             <li>Student Information Display</li>
             <li>Easy Navigation Menu</li>
             <li>User-Friendly Interface</li>
-            <!-- <li>Knowledge Improvement</li>
-            <li>Useful for Exam and Interview Preparation</li> -->
+            <li>Knowledge Improvement</li>
+            <li>Useful for Exam and Interview Preparation</li>
         </ul>
         </p>
     </div>
   </div>
-    <div class="column">
+    <div class="col-md-4">
     <div class="card">
-      <img src="nature.avif" alt="Kaveri" style="width:100%">
+      <div class="text-center">
+    <img src="{{ url_for('static', filename='images/lady.jpg') }}"
+         class="rounded-circle shadow"
+         style="width:100px; height:100px; object-fit:cover;">
+        
       <div class="container">
         <h2>Kaveri S Wankhede</h2>
         <p class="title">Project Creater</p>
@@ -121,20 +125,25 @@ html {
         <p><button class="button">Contact</button></p>
       </div>
     </div>
-  </div>
-  <div class="column">
+    </div>
+    </div>
+  
+  <div class="col-md-4">
     <div class="card">
       <h3>Technology used for Study Quiz Hub Portal</h3>
       <p>
             <ul>
-                <li>Python</li>
-                <li>Flask</li>
-                <li>Html</li>
-                <li>Jinja templates</li>
-                <li>Bootstrap</li>
-                <li>Css</li>
-                <li>VS Code</li>
-                <li>Browser</li>
+               <li>Python</li>
+              <li>Flask Framework</li>
+              <li>HTML5</li>
+              <li>CSS3</li>
+              <li>Bootstrap 5</li>
+              <li>Jinja2 Templates</li>
+              <li>SQLite Database</li>
+              <li>JavaScript</li>
+              <li>Visual Studio Code (VS Code)</li>
+              <li>Web Browser (Google Chrome)</li>
+              <li>Git & GitHub (Optional)</li>
                 
             </ul>
         </p>
@@ -146,10 +155,7 @@ html {
   
   
   
-  </div>
-    </div>
-  </div>
-</div>
+  
 
 </body>
 </html>

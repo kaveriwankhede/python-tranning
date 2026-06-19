@@ -16,12 +16,24 @@ def init_db():
 
     conn.execute('''
         CREATE TABLE IF NOT EXISTS SCORE (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            Sr_no INTEGER PRIMARY KEY AUTOINCREMENT,
             Student_name TEXT NOT NULL,
-            total_marks INTEGER NOT NULL,
-            exam_date DATETIME DEFAULT CURRENT_TIMESTAMP
-        );
+            Username TEXT NOT NULL,
+            Email TEXT NOT NULL,
+            Password TEXT NOT NULL,
+            subject TEXT NOT NULL   
+        )
     ''')
+
+    try:
+        conn.execute("""
+            ALTER TABLE SCORE
+            ADD COLUMN subject TEXT
+        """)
+        conn.commit()
+    except:
+        pass
+
 
     conn.commit()
     conn.close()
