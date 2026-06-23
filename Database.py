@@ -25,15 +25,20 @@ def init_db():
         )
     ''')
 
-    try:
-        conn.execute("""
-            ALTER TABLE SCORE
-            ADD COLUMN subject TEXT
-        """)
-        conn.commit()
-    except:
-        pass
 
+
+    conn.execute("""
+    CREATE TABLE IF NOT EXISTS QUESTIONS (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        subject TEXT NOT NULL,         
+        question TEXT NOT NULL,
+        option1 TEXT NOT NULL,
+        option2 TEXT NOT NULL,
+        option3 TEXT NOT NULL,
+        option4 TEXT NOT NULL,
+        answer TEXT NOT NULL
+    )
+    """)
 
     conn.commit()
     conn.close()
