@@ -1,7 +1,8 @@
-import sqlite3
+
 from flask import Flask , render_template ,request ,flash ,redirect ,url_for ,session
 from Database import get_db, init_db
 from werkzeug.security import generate_password_hash, check_password_hash
+import sqlite3
 app = Flask(__name__)
 app.secret_key='linkkiwi2026' #needed for flashing message
 
@@ -344,31 +345,85 @@ stud = [
 def Home():
         return render_template('Home.html',students=stud)
     
-'''@app.route('/start')
-def start():
-        session["score"] = 0
-        return redirect(url_for("web_development", qno=0))'''
     
     
+
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
 
-     if request.method == 'POST':
+    if request.method == 'POST':
 
-         username = request.form.get('username')
-         password = request.form.get('password')
-         if username == '' or password == '':
-             flash("Please provide all information!")
-             return render_template('login.html')
+        username = request.form.get('username')
+        password = request.form.get('password')
 
-         flash("Login Successfully!")
-         return redirect(url_for('technology'))
+        conn = get_db()
 
-     return render_template('login.html')
+        user = conn.execute(
+            "SELECT * FROM SCORE WHERE Username = ?",
+            (username,)
+        ).fetchone()
+
+        conn.close()
+
+        if user and check_password_hash(user['Password'], password):
+
+            session['username'] = user['Username']
+            session['student_name'] = user['Student_name']
+
+            flash('Login Successful!', 'success')
+            return redirect(url_for('technology'))
+
+        else:
+            flash('Invalid Username or Password!', 'danger')
+
+    return render_template('login.html')
 
 
 
+@app.route('/forgot_password', methods=['GET', 'POST'])
+def forgot_password():
+
+    if request.method == 'POST':
+
+        username = request.form.get('username')
+        email = request.form.get('email')
+        new_password = request.form.get('new_password')
+
+        conn = get_db()
+
+        user = conn.execute(
+            "SELECT * FROM SCORE WHERE Username=? AND Email=?",
+            (username, email)
+        ).fetchone()
+
+        if user:
+
+            hashed_password = generate_password_hash(new_password)
+
+            conn.execute(
+                "UPDATE SCORE SET Password=? WHERE Username=?",
+                (hashed_password, username)
+            )
+
+            conn.commit()
+
+            flash('Password Updated Successfully!', 'success')
+
+            conn.close()
+
+            return redirect(url_for('Login'))
+
+        else:
+
+            conn.close()
+
+            flash('Invalid Username or Email!', 'danger')
+
+            return redirect(url_for('forgot_password'))
+
+    return render_template('forgot_password.html')
 
 @app.route('/explore_technology')
 def explore_technology():
@@ -447,8 +502,8 @@ def web_development(qno):
     )
 
 
-@app.route('/artificial_intelligence/<int:qno>', methods=['GET', 'POST'])
-def artificial_intelligence(qno):
+@app.route('/Artificial_Intelligence/<int:qno>', methods=['GET', 'POST'])
+def Artificial_Intelligence(qno):
 
     conn = get_db()
 
@@ -485,10 +540,10 @@ def artificial_intelligence(qno):
         session[f"q{qno}"] = selected
 
         if "next" in request.form and qno < len(all_questions) - 1:
-            return redirect(url_for("artificial_intelligence", qno=qno + 1))
+            return redirect(url_for("Artificial_Intelligence", qno=qno + 1))
 
         if "prev" in request.form and qno > 0:
-            return redirect(url_for("artificial_intelligence", qno=qno - 1))
+            return redirect(url_for("Artificial_Intelligence", qno=qno - 1))
 
         if "submit" in request.form:
 
@@ -503,7 +558,7 @@ def artificial_intelligence(qno):
             return redirect(url_for("Result"))
 
     return render_template(
-        "artificial_intelligence.html",
+        "Artificial_Intelligence.html",
         question=all_questions[qno],
         qno=qno,
         total=len(all_questions)
@@ -1309,50 +1364,44 @@ def logout():
     flash('you have been logout.','info')
     return redirect(url_for('Home'))
 
+
+
 @app.route('/Register', methods=['GET', 'POST'])
 def Register():
     if request.method == 'POST':
 
-        sr_no = request.form.get('sr_no')
         student_name = request.form.get('student_name')
         username = request.form.get('username')
         email = request.form.get('email')
         password = request.form.get('password')
         subject = request.form.get('subject')
 
-        if not sr_no or not student_name or not username or not email or not password or not subject:
+        if not student_name or not username or not email or not password or not subject:
             flash('Please provide all details!', 'danger')
             return redirect(url_for('Register'))
 
+        # Password Hashing
+        hashed_password = generate_password_hash(password)
+
         conn = get_db()
-        
+
         conn.execute(
             '''
             INSERT INTO SCORE
-            (Student_name, Username, Email, Password, subject)
+            (Student_name, Username, Email, Password, Subject)
             VALUES (?, ?, ?, ?, ?)
             ''',
-            (student_name, username, email, password, subject)
+            (student_name, username, email, hashed_password, subject)
         )
 
         conn.commit()
         conn.close()
 
-        new_students = {
-            'Sr_no':sr_no,
-            'Name':student_name,
-            'username':username,
-            'email':email,
-            'password':password
-
-        }
-        stud.append(new_students)
-
-        flash('🎉 Registration Successful!', 'success')
-
+        flash('Registration Successful!', 'success')
         return redirect(url_for('Register'))
 
     return render_template('Register.html')
+
 
 @app.route('/search')
 def search():
@@ -1440,8 +1489,8 @@ def students():
         'Sr_no': s.get('Sr_no', s.get('roll_no', '')),
         'Name': s.get('Name', s.get('name', '')),
         'username': s.get('username', ''),
-        'email': s.get('email', ''),
-        'password': s.get('password', '')
+        'email': s.get('email', '')
+        #'password': s.get('password', '')
     })
 
     # Database Data
@@ -1450,8 +1499,8 @@ def students():
         'Sr_no': s['Sr_no'],
         'Name': s['Student_name'],
         'username': s['Username'],
-        'email': s['Email'],
-        'password': s['Password']
+        'email': s['Email']
+        #'password': s['Password']
     })
 
     return render_template(
