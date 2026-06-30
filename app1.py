@@ -370,8 +370,9 @@ def login():
         if user and check_password_hash(user['Password'], password):
 
             session['username'] = user['Username']
+            
             session['student_name'] = user['Student_name']
-
+            session['role']=user['role']
             flash('Login Successful!', 'success')
             return redirect(url_for('technology'))
 
@@ -1359,15 +1360,33 @@ def data_structure(qno):
 
 @app.route('/logout')
 def logout():
-
-    session.pop('sr_no', None)
-    flash('you have been logout.','info')
+    
+    session.pop('username', None)
+    session.pop('role', None)
+    flash('You have been logged out.', 'info')
     return redirect(url_for('Home'))
+
+@app.route('/subjects')
+def subjects():
+    conn=get_db()
+    rows = conn.execute('''
+                        SELECT subjects.name AS subject_name, COUNT(students.id) AS student_count
+                        FROM subjects
+                        LEFT JOIN students ON students.subjects.name
+                        GROUP BY subject.name
+                        ORDER BY subjects.name
+                        ''').fetchall()
+    conn.close()
+    return render_template('subjects.html',rows=rows)
 
 
 
 @app.route('/Register', methods=['GET', 'POST'])
 def Register():
+    #if session.get('role')!='admin':
+    #    flash("Admin only! you do not have permission","danger")
+    #    return redirect(url_for('Home'))
+    
     if request.method == 'POST':
 
         student_name = request.form.get('student_name')
@@ -1436,7 +1455,7 @@ def about():
 
 @app.route('/Add_Question', methods=['GET', 'POST'])
 def Add_Question():
-
+    
     if request.method == "POST":
 
         subject = request.form.get('subject')
@@ -1474,6 +1493,9 @@ def Add_Question():
 
 @app.route("/students")
 def students():
+    if session.get('role')!='admin':
+        flash("Admin only! you do not have permission","danger")
+        return redirect(url_for('Home'))
 
     conn = get_db()
     db_students = conn.execute(
@@ -1508,6 +1530,20 @@ def students():
         students=combined_students
     )
 
+@app.route("/add_student", methods=["GET", "POST"])
+def add_student():
+    conn= get_db()
+    subjects = conn.execute('SELECT * FROM subjects').fetchall()
+    # subjects list - needed to populate the dropdown in the form
+    if request.method == "POST":
+        name = request.form['name'].strip()
+        subject_id = request.form['subject_id']
+        conn.execute('INSERT INTO students (name, subject_id) VALUES (?, ?)', (name, subject_id))
+        conn.commit()
+        conn.close()
+        flash(f"Student '{name}' added successfully!")
+        return redirect(url_for('home'))
+    return render_template("add_student.html", subjects=subjects)
     
 @app.route('/view_student/<int:Sr_no>')
 def view_student(Sr_no):
@@ -1526,21 +1562,26 @@ def view_student(Sr_no):
 
 @app.route('/delete_candidate/<int:Sr_no>')
 def delete_candidate(Sr_no):
+        
+
+    if session.get('role')!='admin':
+        flash("Admin only! you do not have permission","danger")
+        return redirect(url_for('Home'))
 
     conn = get_db()
 
     student = conn.execute(
-    'SELECT * FROM SCORE WHERE Sr_no=?',
-    (Sr_no,)
-).fetchone()
+            'SELECT * FROM SCORE WHERE Sr_no=?',
+            (Sr_no,)
+            ).fetchone()
     if student is None:
-        flash("student not found","danger")
-        conn.close()
-    
+                flash("student not found","danger")
+                conn.close()
+            
     conn.execute(
-    'DELETE FROM SCORE WHERE Sr_no=?',
-    (Sr_no,)
-)
+            'DELETE FROM SCORE WHERE Sr_no=?',
+            (Sr_no,)
+            )
     conn.commit()
     conn.close()
     flash("candidate deleted successfully","success")
@@ -1548,6 +1589,9 @@ def delete_candidate(Sr_no):
 
 @app.route('/edit_student/<int:Sr_no>', methods=['GET', 'POST'])
 def edit_student(Sr_no):
+    if session.get('role')!='admin':
+        flash("Admin only! you do not have permission","danger")
+        return redirect(url_for('Home'))
 
     conn = get_db()
 
@@ -1612,7 +1656,7 @@ def Result():
     return render_template("result.html", score=score, total=total)
     
 
-
+init_db()
 if __name__ == '__main__':
-    init_db()
+    
     app.run(debug=True)

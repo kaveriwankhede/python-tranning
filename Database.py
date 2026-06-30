@@ -25,6 +25,11 @@ def init_db():
         )
     ''')
 
+    try:
+        conn.execute("ALTER TABLE SCORE add column role text default 'student'")
+    except Exception:
+        pass
+
 
 
     conn.execute("""
@@ -40,10 +45,25 @@ def init_db():
     )
     """)
 
+    conn.execute("""
+CREATE TABLE IF NOT EXISTS subjects (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL UNIQUE
+)
+""")
+    
+    default_subjects = ['java','cpp','python','Operating System','Data Science','Database Management']
+    
+    for subject in default_subjects:
+        try:
+            conn.execute("INSERT INTO subjects (name) VALUES (?)", (subject,))
+        except sqlite3.IntegrityError:
+            pass
+
     conn.commit()
     conn.close()
 
-
+init_db()  # function call
 if __name__ == "__main__":
-    init_db()  # function call
+    
     app.run(debug=True)

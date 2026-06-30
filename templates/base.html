@@ -30,15 +30,49 @@
             <a class="nav-link" href="{{ url_for('Home') }}">🏠 Home</a>
             <a class="nav-link" href="{{ url_for('about') }}">ℹ️ about</a>
             <a class="nav-link" href="{{ url_for('students') }}">🧑‍🎓 students</a>
+            <a class="nav-link" href="{{ url_for('subjects') }}">📚 Subjects</a>
 
-            <a class="nav-link" href="{{ url_for('login') }}">🔐 login</a>
-            <a class="nav-link" href="{{ url_for('Register') }}">📝 Register</a>
+            
+            {% if session.role == 'admin' %}
+                <a class="nav-link" href="{{ url_for('add_student') }}">
+                    ➕ Add Student
+                </a>
+                <a class="nav-link" href="{{ url_for('Add_Question') }}">
+                    📝 Add_Question
+                </a>
+            {% endif %}
+
+
             <a class="nav-link" href="{{ url_for('filter') }}">🔍 Filter</a>
 
             <form class="d-flex" action="/search" method="GET">
-                <input class="form-control me-2" type="search" placeholder="search" name="q">
-                <button class="btn btn-outline-light" type="submit">Search</button>
+                <!-- <input class="form-control me-2" type="search" placeholder="search" name="q" style="width: 200px; height: 50px;">
+                <button class="btn btn-outline-light" type="submit">Search</button> -->
+                <input type="text" class="form-control" placeholder="Search..." style="width: 200px; height: 50px;" list="searchSuggestions">
+
+                <datalist id="searchSuggestions">
+                    <option value="Python">
+                    <option value="Java">
+                    <option value="C++">
+                    <option value="HTML">
+                    <option value="CSS">
+                    <option value="JavaScript">
+                </datalist>
             </form>
+                {% if session.username %}
+                    <div class="d-flex flex-column">
+                    <span class="nav-link px-2 py-1 text-white">👤 {{ session.username }}</span>
+                    <a class="nav-link px-2 py-1" href="{{ url_for('logout') }}">
+                        🔓 Logout
+                    </a>
+                    </div>
+                {% else %}
+                    <div class="d-flex flex-column">
+                        <a class="nav-link" href="{{ url_for('login') }}">🔒 Login</a>
+                        <a class="nav-link" href="{{ url_for('Register') }}">📝 Register</a>
+                    </div>
+                {% endif %}
+
         </div>
     </div>
 </nav>
